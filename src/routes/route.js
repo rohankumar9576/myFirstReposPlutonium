@@ -3,8 +3,10 @@ const _=require("underscore")
 const dash=require("lodash")
 
 // const myun=require("union")
-const abc = require('../introduction/intro')
+const abc = require('../introduction/intro');
+const { application } = require('express');
 const router = express.Router();
+
 
 router.get('/test-me', function (req, res) {
     console.log('My batch is', abc.name)
@@ -55,6 +57,102 @@ router.get('/test-you', function(req, res){
 
 router.get('/give-me-students-data',function(req, res){
 
+
 })
+
+
+router.get('/sol1', function (req, res) {
+let arr=[1,2,3,5,6,7]
+let total=0;
+for (let i=0;i<arr.length;i++) {
+    total += arr[i];
+}
+let n=arr.pop()
+let sumOfNum=(n*(n+1))/2
+
+let missingNum =sumOfNum-total
+console.log(missingNum)
+res.send({missingNum})
+})
+
+
+
+
+
+
+router.get('/sol2' ,function(req,res){
+let arr=[33,34,35,37,38]
+
+
+let total=0;
+for (let i=0;i<arr.length;i++) {
+    total += arr[i];
+}
+let n=32
+let sumOfNum=(n*(n+1))/2
+let n2=arr.pop()
+let anoSum =(n2*(n2+1))/2
+let missingNum = anoSum-sumOfNum-total
+res.send({missingNum})
+})
+
+router.post('/mypost' ,function(req,res){
+    let postreq=req.body
+    res.send(postreq)
+    
+
+})
+
+let players=[{
+    "name": "manish",
+    "dob": "1/1/1995",
+    "gender": "male",
+    "city": "jalandhar",
+    "sports": ["swimming"]
+},
+    
+   { "name": "gopal",
+    "dob": "1/09/1995",
+    "gender": "male",
+    "city": "delhi",
+    "sports": ["soccer"]
+},
+    {
+        "name": "lokesh",
+        "dob": "1/1/1990",
+        "gender": "male",
+        "city": "mumbai",
+        "sports":["soccer"]
+    },
+
+]
+
+router.post('/players', function (req, res) {
+
+let reqPlayer=req.body
+let isflagRepeat=false;
+for(let i=0;i<players.length;i++){
+    if(reqPlayer.name==players[i].name){
+        isflagRepeat=true;
+        break;
+    }
+}
+
+if(isflagRepeat){
+    res.send("Already exist")
+}
+ else{
+    players.push(reqPlayer)
+    res.send(players)
+ }
+
+
+})
+
+
 module.exports = router;
+
 // adding this comment for no reason
+
+
+

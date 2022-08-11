@@ -150,6 +150,56 @@ if(isflagRepeat){
 })
 
 
+let persons = [
+
+    {
+        nane: "PK",
+
+        age: 10, votingStatus: false
+    },
+
+    {
+        nane: "SK",
+
+        age: 20,
+
+        votingStatus: false
+    },
+
+    {
+        nane: "AA", age: 70,
+
+        votingStatus: false
+    },
+
+    {
+        nane: "SC",
+
+        age: 5, votingStatus: false
+    },
+
+    {
+        name: "HO",
+
+        age: 40,
+
+        votingStatus: false
+    }
+]
+
+router.post('/voters/:votingAge',function(req,res){
+    let ageReq=req.params.votingAge
+
+    for(let i=0;i<persons.length;i++){
+        persons[i]
+        if(persons[i].age>=ageReq){
+             persons[i].votingStatus="true"    
+        } 
+    }
+ res.send(persons)
+})
+
+
 module.exports = router;
 
 // adding this comment for no reason

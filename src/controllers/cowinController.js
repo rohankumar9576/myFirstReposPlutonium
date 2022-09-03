@@ -1,4 +1,20 @@
 let axios = require("axios")
+const { response } = require("express")
+
+const byDistrict=async function(req,res){
+    try{
+    let district_id=req.query.district_id
+    let date=req.query.date
+    let options={
+        method:"get",
+        url:`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=${district_id}&date=${date}`
+    }
+    let result=await axios(options)
+    res.send({status:true,msg:result.data})}
+    catch(err){response.status(500).send(err.message)}
+}
+
+
 
 
 let getStates = async function (req, res) {
@@ -59,13 +75,13 @@ let getByPin = async function (req, res) {
 
 let getOtp = async function (req, res) {
     try {
-        let blahhh = req.body
+        let mobNumber = req.body
         
-        console.log(`body is : ${blahhh} `)
+        console.log(`body is : ${mobNumber} `)
         var options = {
             method: "post",
             url: `https://cdn-api.co-vin.in/api/v2/auth/public/generateOTP`,
-            data: blahhh
+            data: mobNumber
         }
 
         let result = await axios(options)
@@ -79,7 +95,9 @@ let getOtp = async function (req, res) {
 }
 
 
+
 module.exports.getStates = getStates
 module.exports.getDistricts = getDistricts
 module.exports.getByPin = getByPin
 module.exports.getOtp = getOtp
+module.exports.byDistrict=byDistrict

@@ -1,7 +1,7 @@
 const express = require('express');
 var bodyParser = require('body-parser');
 
-// const route = require('./routes/route.js');
+const route = require('./router/route');
 const { default: mongoose } = require('mongoose');
 
 const app = express();
@@ -18,7 +18,7 @@ mongoose.connect("mongodb+srv://collegeIntern:project-2@cluster0.9xvqylt.mongodb
 
 
 
-// app.use('/', route);
+app.use('/', route);
 
 app.listen(process.env.PORT || 3000, function() {
     console.log('Express app running on port ' + (process.env.PORT || 3000))

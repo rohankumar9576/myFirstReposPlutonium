@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-
+const objId=mongoose.Schema.Types.ObjectId
 const internSchema = new mongoose.Schema({
 
     name: {
@@ -19,7 +19,7 @@ const internSchema = new mongoose.Schema({
     },
 
     collegeId: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: objId,
         ref: "college"
     },
 

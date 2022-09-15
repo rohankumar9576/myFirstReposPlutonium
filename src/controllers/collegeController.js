@@ -20,15 +20,21 @@ const createCollege = async function (req, res) {
 
 const getCollegeDetails = async function (req, res) {
     try {
-        
-        let collegeName = req.query.collegeName
-       
+        let data = req.query
+        let dataLen = Object.keys(data).length
+        if (dataLen == 0) return res.status(400).send({ status: false, msg: "Enter Data " })
+
+        let collegeName = data.collegeName
+        if (!collegeName) return res.status(400).send({ status: false, msg: "Enter college Name " })
+
         let collegeInterns = await collegeModel.findOne({ name: collegeName })
+        if (!collegeInterns) return res.status(400).send({ status: false, msg: "This College does't exist" })
+
         const { name, fullName, logoLink } = collegeInterns
 
         let internStudents = await internModel.find({ collegeId: collegeInterns._id }).select({ _id: 1, name: 1, mobile: 1, email: 1 })
-        console.log(internStudents)
- 
+        if (!internStudents) return res.status(404).send({ status: false, msg: "No such Interns Are Thire" })
+
         let collegeDetails = { name, fullName, logoLink, interns: internStudents }
         console.log(collegeDetails)
 
@@ -42,4 +48,4 @@ const getCollegeDetails = async function (req, res) {
 
 
 
-module.exports={ createCollege ,  getCollegeDetails }  
+module.exports = { createCollege, getCollegeDetails }  

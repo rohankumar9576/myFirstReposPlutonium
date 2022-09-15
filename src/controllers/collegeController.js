@@ -1,6 +1,8 @@
 const collegeModel = require("../models/collegeModel")
 const internModel = require("../models/internModel")
 
+//________________________College Create__________________________________________________________________________________________________________________
+
 const createCollege = async function (req, res) {
     try {
 
@@ -14,42 +16,30 @@ const createCollege = async function (req, res) {
     }
 }
 
+//___________________________Get College Details_____________________________________________________________________________________________________________
 
 const getCollegeDetails = async function (req, res) {
-    try{
-    let collegeName = req.query.collegeName
+    try {
+        
+        let collegeName = req.query.collegeName
+       
+        let collegeInterns = await collegeModel.findOne({ name: collegeName })
+        const { name, fullName, logoLink } = collegeInterns
 
-    let collegeInterns = await collegeModel.findOne({ name: collegeName })
-    const { name, fullName, logoLink } = collegeInterns
+        let internStudents = await internModel.find({ collegeId: collegeInterns._id }).select({ _id: 1, name: 1, mobile: 1, email: 1 })
+        console.log(internStudents)
+ 
+        let collegeDetails = { name, fullName, logoLink, interns: internStudents }
+        console.log(collegeDetails)
 
-    let internStudents = await internModel.find({ collegeId: collegeInterns._id })
-    console.log(internStudents)
-
-    let studentDeatails = internStudents.map(student => {
-        return {
-            id: student._id.toString(),
-            name: student.name,
-            mobile: student.mobile,
-            email: student.email
-        }
-    })
-    let collegeDetails = {
-        name: name,
-        fullName: fullName,
-        logoLink: logoLink,
-        interns: studentDeatails
+        res.status(200).send({ status: true, data: collegeDetails })
     }
-    console.log(collegeDetails)
-
-    res.status(200).send( { status:true,data:collegeDetails})
-}
-catch(err){
-    res.status(500).send({status:false, msg:err.message})
-}
+    catch (err) {
+        res.status(500).send({ status: false, msg: err.message })
+    }
 
 }
 
 
 
-module.exports.createCollege = createCollege
-module.exports.getCollegeDetails = getCollegeDetails
+module.exports={ createCollege ,  getCollegeDetails }  

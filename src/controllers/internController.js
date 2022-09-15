@@ -22,7 +22,7 @@ const createIntern = async function (req, res) {
             return res.status(400).send({ status: false, message: "Name is required" })
 
         if (!(/^[a-z A-Z]+$/).test(name))
-            return res.status(400).send({ status: false, message: "Name should be in Alphabet format" });
+            return res.status(400).send({ status: false, message: "Name should be in Alphabet format" })
 
         if (!isValid(email))
             return res.status(400).send({ status: false, message: "Email is required" })

@@ -33,7 +33,7 @@ const getCollegeDetails = async function (req, res) {
         const { name, fullName, logoLink } = collegeInterns
 
         let internStudents = await internModel.find({ collegeId: collegeInterns._id }).select({ _id: 1, name: 1, mobile: 1, email: 1 })
-        if (!internStudents) return res.status(404).send({ status: false, msg: "No such Interns Are Thire" })
+        if (!internStudents) return res.status(404).send({ status: false, msg: "No such Interns Are There" })
 
         let collegeDetails = { name, fullName, logoLink, interns: internStudents }
         console.log(collegeDetails)

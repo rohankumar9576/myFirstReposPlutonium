@@ -20,7 +20,7 @@ const createIntern = async function (req, res) {
         if (!isValid(data.name))
             return res.status(400).send({ status: false, message: "Name is required" })
 
-        if (!(/^[a-z A-Z]+$/i).test(data.name))
+        if (!(/^[a-z A-Z]+$/).test(data.name))
             return res.status(400).send({ status: false, message: "Name should be in Alphabet format" });
 
         if (!isValid(data.email))
@@ -56,4 +56,4 @@ const createIntern = async function (req, res) {
 }
 
 
-module.exports.createIntern = createIntern
+module.exports={createIntern,isValid}

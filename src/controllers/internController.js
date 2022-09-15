@@ -42,6 +42,8 @@ const createIntern = async function (req, res) {
         let checkNumber = await internModel.findOne({ mobile: mobile })
         if (checkNumber) return res.status(400).send({ status: false, message: "This mobile number is already used" })
 
+       if(!collegeName) return res.status(400).send({status:false,msg:"Enter College Name"})
+
         let colleges = await collegeModel.findOne({ name: collegeName }, { _id: 1 })
         if (!colleges) return res.status(404).send({ status: false, message: "College not found" })
 

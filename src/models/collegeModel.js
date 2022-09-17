@@ -1,6 +1,6 @@
 //project2 
 const mongoose=require('mongoose')
-const collegeschema=mongoose.Schema(
+const collegeSchema=mongoose.Schema(
     { name: { 
         type:String,
         required:true,
@@ -25,4 +25,4 @@ const collegeschema=mongoose.Schema(
 },
 { timestamps: true }
     )
-    module.exports = mongoose.model("college", collegeschema);
+    module.exports = mongoose.model("college", collegeSchema);

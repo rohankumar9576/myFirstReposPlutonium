@@ -18,7 +18,7 @@ router.post("/books",auth.authentication,bookController.createBook)
 router.get("/books",auth.authentication,bookController.getBooks)
 
 //---------------------Get API for all book details by param--------------------->>>
-router.get("/books/:userId",auth.authentication,bookController.bookDetails)
+router.get("/books/:bookId",auth.authentication,bookController.bookDetails)
 
 //-----------------------put API for books details update------------------------->>>
 router.put("/books/:bookId", auth.authentication,auth.authorization,bookController.updateBook);

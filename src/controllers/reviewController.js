@@ -62,10 +62,10 @@ const updateReview = async function (req, res) {
 
         //validation 
         if (!isValidObjectId(bookId)) {
-            return res.status(400).send({ status: false, msg: "Incorrect bookId format" })
+            return res.status(400).send({ status: false, message: "Incorrect bookId format" })
         }
         if (!isValidObjectId(reviewID)) {
-            return res.status(400).send({ status: false, msg: "Incorrect reviewId format" })
+            return res.status(400).send({ status: false, message: "Incorrect reviewId format" })
         }
         if (!isEmpty(updateBody)) {
             return res.status(400).send({ status: false, message: 'Invalid request parameters. Please provide review details to update.' })
@@ -76,7 +76,7 @@ const updateReview = async function (req, res) {
             if (!isEmpty(review)) {
                 return res.status(400).send({ status: false, message: "Review is missing ! Please provide the review details to update." })
             }
-
+            
         }
 // ------------------------checking reviewedBy validation-------------->>
         if (reviewedBy) {

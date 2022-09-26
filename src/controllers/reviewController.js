@@ -2,6 +2,7 @@ const bookModel = require("../models/bookModel");
 const userModel = require("../models/userModel");
 const validation = require("../validator/validation");
 const reviewModel = require("../models/reviewModel");
+const moment = require("moment")
 let { isEmpty, isValidObjectId, isValidRating, isValidName } = validation;
 
 //-------------------------Book Review creation---------------------->>>
@@ -36,7 +37,12 @@ const bookReview = async function (req, res) {
             return res.status(400).send({ status: false, message: "please provide valid rating " })
         };
 
-        requestBody.reviewedAt = new Date()
+        if (!reviewedAt)
+            return res.status(400).send({ status: false, message: "please provide rating " })
+
+        if (!moment.utc(reviewedAt, "YYYY-MM-DD", true).isValid())
+            return res.status(400).send({ status: false, message: "enter date in valid format eg. (YYYY-MM-DD)...!" })
+            
         requestBody.bookId = bookId
 
         const reviewDoc = await reviewModel.create(requestBody)
@@ -71,14 +77,14 @@ const updateReview = async function (req, res) {
             return res.status(400).send({ status: false, message: 'Invalid request parameters. Please provide review details to update.' })
         }
 
-// -------------------------checking review validation.--------------->>
+        // -------------------------checking review validation.--------------->>
         if (review) {
             if (!isEmpty(review)) {
                 return res.status(400).send({ status: false, message: "Review is missing ! Please provide the review details to update." })
             }
-            
+
         }
-// ------------------------checking reviewedBy validation-------------->>
+        // ------------------------checking reviewedBy validation-------------->>
         if (reviewedBy) {
 
             if (!isEmpty(reviewedBy)) {
@@ -89,7 +95,7 @@ const updateReview = async function (req, res) {
             };
         };
 
-// ----------- checking whether the rating is number or character------->>
+        // ----------- checking whether the rating is number or character------->>
         if (rating) {
 
             if (typeof rating != "number") {

@@ -6,7 +6,7 @@ const moment = require("moment");
 
 let { isEmpty, isValidName, isValidObjectId, isValidISBN } = validation;
 
-//------------------_create blogs---------------------------------------->>>
+//-------------------create blogs---------------------------------------->>>
 
 const createBook = async function (req, res) {
     try {

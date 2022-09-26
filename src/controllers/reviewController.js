@@ -43,7 +43,7 @@ const bookReview = async function (req, res) {
         if (!moment.utc(reviewedAt, "YYYY-MM-DD", true).isValid())
             return res.status(400).send({ status: false, message: "enter date in valid format eg. (YYYY-MM-DD)...!" })
             
-        requestBody.bookId = bookId
+            requestBody.bookId = bookId
 
         const reviewDoc = await reviewModel.create(requestBody)
         let updatedBook = await bookModel.findOneAndUpdate({ _id: bookId }, { $inc: { reviews: 1 } }, { new: true })

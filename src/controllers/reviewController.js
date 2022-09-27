@@ -34,11 +34,11 @@ const bookReview = async function (req, res) {
             return res.status(400).send({ status: false, message: "please provide rating " })
         };
         if (!isValidRating(rating)) {
-            return res.status(400).send({ status: false, message: "please provide valid rating " })
+            return res.status(400).send({ status: false, message: "please provide valid rating between 1 to 5" })
         };
 
         if (!reviewedAt)
-            return res.status(400).send({ status: false, message: "please provide rating " })
+            return res.status(400).send({ status: false, message: "please provide reviewAt" })
 
         if (!moment.utc(reviewedAt, "YYYY-MM-DD", true).isValid())
             return res.status(400).send({ status: false, message: "enter date in valid format eg. (YYYY-MM-DD)...!" })

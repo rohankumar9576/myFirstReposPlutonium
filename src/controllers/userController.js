@@ -53,7 +53,8 @@ const createUser = async function (req, res) {
     if (!isValidPassword(password)) {
       return res.status(400).send({status: "false",message:"Password must contain atleast 8 characters including one upperCase, lowerCase, special characters and Numbers"});
     }
-
+  if(typeof address!==Object)return res.status(400).send({status:false,message:"Please enter address in object format"})
+if(address){
     if(!street(address.street)){
       return res.status(400).send({ status: false, message: "Enter valid Street Name" })
     }
@@ -66,7 +67,7 @@ const createUser = async function (req, res) {
     if(!pincode(address.pincode)){
       return res.status(400).send({ status: false, message: "Enter valid Pin code" })
     }
-    
+  }
     const result = await userModel.create(data);
     res.status(201).send({ status: true, message: "new user is created", data: result });
   } catch (err) {

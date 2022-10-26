@@ -19,64 +19,44 @@ const createOrder = async function (req, res) {
     const requestBody = req.body;
 
     if (!isValidBody(requestBody)) {
-      return res
-        .status(400)
-        .send({ status: false, message: "Request body can not be empty" });
+      return res.status(400).send({ status: false, message: "Request body can not be empty" });
     }
 
     let { cartId, cancellable } = requestBody;
 
     if (!cartId) {
-      return res
-        .status(400)
-        .send({ status: false, message: "cartId is required" });
+      return res.status(400).send({ status: false, message: "cartId is required" });
     }
 
     if (!isValidObjectId(cartId)) {
-      return res
-        .status(400)
-        .send({ status: false, message: "cartId is invalid" });
+      return res.status(400).send({ status: false, message: "cartId is invalid" });
     }
 
     if (!isValidObjectId(userIdByparam)) {
-      return res
-        .status(400)
-        .send({ status: false, message: "userId is invalid" });
+      return res.status(400).send({ status: false, message: "userId is invalid" });
     }
 
     const userByuserId = await userModel.findById(userIdByparam);
 
     if (!userByuserId) {
-      return res
-        .status(400)
-        .send({ status: false, message: "User is not found" });
+      return res.status(400).send({ status: false, message: "User is not found" });
     }
 
     if (userIdByparam != userIdbytoken) {
-      return res.status(403).send({
-        status: false,
-        message: "unauthorize access..!",
-      });
+      return res.status(403).send({ status: false, message: "unauthorize access..!" });
     }
 
     const findUserCart = await cartModel.findById(cartId);
 
     if (!findUserCart) {
-      return res
-        .status(400)
-        .send({ status: false, message: "User cart is not found" });
+      return res.status(400).send({ status: false, message: "User cart is not found" });
     }
     if (findUserCart.items.length === 0) {
       return res.status(400).send({ status: false, message: "Cart is empty" });
     }
     if (cancellable) {
       if (typeof (cancellable) !== "boolean") {
-        return res
-          .status(400)
-          .send({
-            status: false,
-            message: "cancellable should in boolean format",
-          });
+        return res.status(400).send({ status: false, message: "cancellable should in boolean format" });
       }
     }
     let totalQuantity1 = 0;
@@ -93,17 +73,13 @@ const createOrder = async function (req, res) {
       cancellable: cancellable,
     };
 
-    await cartModel.findOneAndUpdate(
-      { _id: cartId },
-      { $set: { totalItems: 0, totalPrice: 0, items: [] } }
-    );
+    await cartModel.findOneAndUpdate({ _id: cartId }, { $set: { totalItems: 0, totalPrice: 0, items: [] } });
 
     let saveOrder = await orderModel.create(newOrder);
 
-    return res
-      .status(201)
-      .send({ status: true, message: "Success", data: saveOrder });
-  } catch (error) {
+    return res.status(201).send({ status: true, message: "Success", data: saveOrder });
+  }
+  catch (error) {
     return res.status(500).send({ status: false, error: error.message });
   }
 };
@@ -117,41 +93,27 @@ const updateOrder = async function (req, res) {
     let { orderId, status } = requestBody;
 
     if (!isValidBody(requestBody)) {
-      return res.status(400).send({
-        status: false,
-        message: "Body can't be empty,Enter some data",
-      });
+      return res.status(400).send({ status: false, message: "Body can't be empty,Enter some data" });
     }
 
     if (!isValidObjectId(userId)) {
       return res.status(400).send({ status: false, message: "UserId inValid" });
     }
 
-    
-
     if (!isValid(orderId)) {
-      return res
-        .status(400)
-        .send({ status: false, message: "Please enter order id" });
+      return res.status(400).send({ status: false, message: "Please enter order id" });
     }
 
     if (!isValidObjectId(orderId)) {
-      return res
-        .status(400)
-        .send({ status: false, message: "Invalid order Id" });
+      return res.status(400).send({ status: false, message: "Invalid order Id" });
     }
 
     if (!status) {
-      return res
-        .status(400)
-        .send({ status: false, message: "Status is required" });
+      return res.status(400).send({ status: false, message: "Status is required" });
     }
 
     if (!isValidStatus(status)) {
-      return res.status(400).send({
-        status: false,
-        message: "Status must be completed or cancelled  ",
-      });
+      return res.status(400).send({ status: false, message: "Status must be completed or cancelled  " });
     }
 
     const findUser = await userModel.findById(userId);
@@ -162,44 +124,30 @@ const updateOrder = async function (req, res) {
 
     const findOrder = await orderModel.findById(orderId);
     if (findOrder.status === "completed" || findOrder.status === "cancelled") {
-      return res
-        .status(400)
-        .send({ status: false, message: "This order can not be updated" });
+      return res.status(400).send({ status: false, message: "This order can not be updated" });
     }
 
     // Authorization :-
 
     if (req.userId !== userId) {
-      return res
-        .status(400)
-        .send({ status: false, message: "Unauthorize acces!.." });
+      return res.status(400).send({ status: false, message: "Unauthorize acces!.." });
     }
+
     if (findOrder.userId.toString() !== userId) {
-      return res.status(400).send({
-        status: false,
-        message: "This order is not belong to this user",
-      });
+      return res.status(400).send({ status: false, message: "This order is not belong to this user" });
     }
 
     if (!findOrder) {
-      return res
-        .status(404)
-        .send({ status: false, message: "order not found " });
+      return res.status(404).send({ status: false, message: "order not found " });
     }
 
     if (status == "completed") {
-      let updateData = await orderModel.findOneAndUpdate(
-        { _id: orderId },
-        { $set: { status: status } },
-        { new: true }
-      );
+      let updateData = await orderModel.findOneAndUpdate({ _id: orderId }, { $set: { status: status } }, { new: true });
 
-      return res.status(200).send({
-        status: true,
-        message: "The Order is completed Successfully",
-        data: updateData,
-      });
-    } else if (status == "cancelled") {
+      return res.status(200).send({ status: true, message: "The Order is completed Successfully", data: updateData });
+    }
+
+    else if (status == "cancelled") {
       let updatedCancled = await orderModel.findOneAndUpdate(
         { _id: orderId, cancellable: true },
         { $set: { status: status, isDeleted: true, deletedAt: new Date() } },
@@ -207,16 +155,13 @@ const updateOrder = async function (req, res) {
       );
 
       if (!updatedCancled) {
-        return res
-          .status(400)
-          .send({ status: false, message: "This order is not cancellable " });
+        return res.status(400).send({ status: false, message: "This order is not cancellable " });
       }
 
-      return res
-        .status(200)
-        .send({ status: true, message: "The Order is cancelled Successfully" });
+      return res.status(200).send({ status: true, message: "The Order is cancelled Successfully" });
     }
-  } catch (error) {
+  }
+  catch (error) {
     return res.status(500).send({ status: false, message: error.message });
   }
 };

@@ -1,0 +1,28 @@
+{
+  "name": "project_6",
+  "version": "1.0.0",
+  "description": "Student Records",
+  "main": "index.js",
+  "scripts": {
+    "test": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gouravpundir/Student-Records.git"
+  },
+  "keywords": [
+    "Student",
+    "Teacher"
+  ],
+  "author": "Gourav Pundir",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gouravpundir/Student-Records/issues"
+  },
+  "homepage": "https://github.com/Gouravpundir/Student-Records#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^6.8.0",
+    "nodemon": "^2.0.20"
+  }
+}

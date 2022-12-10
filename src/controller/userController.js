@@ -81,7 +81,7 @@ const createAdmin= async function(req,res){
 
 
 const userLogin = async function (req, res) {
-    // try {
+     try {
       let requestBody = req.body;
       if (Object.keys(requestBody).length === 0)
         return res
@@ -147,9 +147,9 @@ const userLogin = async function (req, res) {
         .status(200)
         .send({ status: true, message: "User login successfull", data: obj });
     }
-  //    catch (err) {
-  //     res.status(500).send({ status: false, error: err.message });
-  //   }
-  // };
+      catch (err) {
+       res.status(500).send({ status: false, error: err.message });
+     }
+   };
   
 module.exports={userLogin,createAdmin}

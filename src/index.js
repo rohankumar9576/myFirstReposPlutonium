@@ -5,9 +5,7 @@ const mongoose = require("mongoose");
 mongoose.set('strictQuery', true);
 app.use(express.json());
 
-mongoose
-  .connect(
-    "mongodb+srv://gourav-pundir:7HztUn9Bz3zFfxDT@cluster0.tnf1yk0.mongodb.net/gourav-22",
+mongoose.connect("mongodb+srv://rohankumar9576:rohankumar123@cluster0.xwevuug.mongodb.net/test",
     {
       useNewUrlParser: true,
     }
